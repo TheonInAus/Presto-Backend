@@ -7,7 +7,7 @@ export class SignUpController {
   constructor(private readonly signUpService: SignUpService) {}
 
   @Post()
-  signUp(@Body() signUpDto: SignUpDto): string {
-    return this.signUpService.signUp(signUpDto);
+  async signUp(@Body() signUpDto: SignUpDto): Promise<string> {
+    return await this.signUpService.signUp(signUpDto);
   }
 }
