@@ -4,10 +4,14 @@ import { SignInDto } from './dto/sign-in.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from 'src/schemas/user.schema';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-  constructor(@InjectModel('User') private userModel: Model<User>) {}
+  constructor(
+    @InjectModel('User') private userModel: Model<User>,
+    private readonly jwtService: JwtService,
+  ) {}
 
   async signUp(signUpDto: SignUpDto) {
     const userExist = await this.userModel.findOne({ name: signUpDto.name });
@@ -16,6 +20,13 @@ export class AuthService {
     }
     const user = new this.userModel(signUpDto);
     await user.save();
+
+    return {
+      access_token: this.jwtService.sign({
+        name: signUpDto.name,
+        password: signUpDto.password,
+      }),
+    };
   }
 
   async login(signInDto: SignInDto) {
@@ -26,5 +37,11 @@ export class AuthService {
     if (user.password !== signInDto.password) {
       throw new HttpException('Invalid password', 401);
     }
+    return {
+      access_token: this.jwtService.sign({
+        name: signInDto.name,
+        password: signInDto.password,
+      }),
+    };
   }
 }
