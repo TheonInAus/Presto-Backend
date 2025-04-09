@@ -24,7 +24,6 @@ export class AuthService {
     return {
       access_token: this.jwtService.sign({
         name: signUpDto.name,
-        password: signUpDto.password,
       }),
     };
   }
@@ -40,7 +39,6 @@ export class AuthService {
     return {
       access_token: this.jwtService.sign({
         name: signInDto.name,
-        password: signInDto.password,
       }),
     };
   }
