@@ -9,13 +9,11 @@ export class AuthController {
 
   @Post('signup')
   async signUp(@Body() signUpDto: SignUpDto) {
-    const { name, password } = signUpDto;
-    return await this.authService.signUp(name, password);
+    return await this.authService.signUp(signUpDto);
   }
 
   @Get('login')
   async login(@Body() signInDto: SignInDto) {
-    const { name, password } = signInDto;
-    return await this.authService.login(name, password);
+    return await this.authService.login(signInDto);
   }
 }
