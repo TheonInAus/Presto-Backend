@@ -39,9 +39,9 @@ export class AuthService {
       throw new HttpException('User not found', 404);
     }
 
-    const hash_password = await bcrypt.hash(signInDto.password, 10);
+    const result = await bcrypt.compare(signInDto.password, user.password);
 
-    if (hash_password !== signInDto.password) {
+    if (result === false) {
       throw new HttpException('Invalid password', 401);
     }
 
