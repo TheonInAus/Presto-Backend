@@ -26,11 +26,7 @@ export class AuthService {
     });
     await user.save();
 
-    return {
-      access_token: this.jwtService.sign({
-        name: signUpDto.name,
-      }),
-    };
+    return 'User created successfully';
   }
 
   async login(signInDto: SignInDto) {
@@ -47,7 +43,7 @@ export class AuthService {
 
     return {
       access_token: this.jwtService.sign({
-        name: signInDto.name,
+        name: user.name,
       }),
     };
   }
